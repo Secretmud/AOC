@@ -18,7 +18,7 @@ class aoc:
             else:
                 break
 
-        return self.data[start], self.data[end]
+        return self.data[start] * self.data[end]
 
 
     def _01ax(self, start, end):
@@ -34,11 +34,13 @@ class aoc:
             
             while (l < r):
                 if (self._01bx(x, l, r) == sum):
-                    return self.data[x], self.data[l], self.data[r]
+                    break
                 elif (self._01bx(x, l, r) > sum):
                     r -= 1
                 else:
                     l += 1
+
+        return self.data[x] * self.data[l] * self.data[r]
 
 
     def _01bx(self, x, y, z):
@@ -78,3 +80,37 @@ class aoc:
                 count += 1
 
         return count
+
+
+    def _03a(self):
+        plane = [self.data[i] for i in range(len(self.data))]
+        step = 0
+        tree = 0
+        for i in range(len(self.data)):
+            if step + 3 >= len(self.data[0]):
+                step %= len(self.data[0])
+            if plane[i][step] == "#":
+                tree += 1
+            step += 3
+
+        return tree
+
+    
+    def _03b(self):
+        plane = [self.data[i] for i in range(len(self.data))]
+        right = [1, 3, 5, 7, 1]
+        down = [1, 1, 1, 1, 2]
+        ans = 1
+        for x in range(0, len(right)):
+            step = 0
+            tree = 0
+            for i in range(0, len(self.data), down[x]):
+                if step + right[x] >= len(self.data[0]):
+                    step %= len(self.data[0])
+                if plane[i][step] == "#":
+                    tree += 1
+                step += right[x]
+            ans *= tree
+
+        return ans
+
