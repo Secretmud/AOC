@@ -3,19 +3,15 @@
 #include <string.h>
 
 
-static void day1a(int arr[2000]);
-static void day1b(int arr[2000]);
+static void day1a(int *arr);
+static void day1b(int *arr);
+static void readFile(int *p, char *fname);
 
 int main(int argc, char **argv) {
-    FILE * file;
-    int buffer[2000];
-    int i = 0;
+    int *buffer;
+    buffer = (int*)malloc(2000 * sizeof(int));
     if (argc >= 2) {
-        file = fopen(argv[1], "r");
-        while (!feof(file)) {
-            fscanf(file, "%d", &buffer[i]);
-            i++;
-        }
+        readFile(buffer, argv[1]);
         printf("----------DAY 1----------\n");
         day1a(buffer);
         day1b(buffer);
@@ -26,7 +22,18 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-static void day1a(int arr[2000]) {
+static void readFile(int *p, char *fname) {
+    FILE * file;
+    int i = 0;
+    file = fopen(fname, "r");
+    while (!feof(file)) {
+        fscanf(file, "%d", &p[i]);
+        i++;
+    }
+    
+}
+
+static void day1a(int *arr) {
     printf("Task A:\n\t");
     int counter = 0;
     for (int i = 0; i < 2000 - 1; i++) {
@@ -35,7 +42,7 @@ static void day1a(int arr[2000]) {
     printf("%d\n", counter);
 }
 
-static void day1b(int arr[2000]) {
+static void day1b(int *arr) {
     printf("Task B:\n\t");
     int counter = 0;
     for (int i = 0; i < 2000 - 3; i++) {
