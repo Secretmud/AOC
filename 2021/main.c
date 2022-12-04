@@ -2,16 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Functions to define the days of the calendar
+ * */
+
+static void day1(char *fname);
+static void day2(char *fname);
 
 static void day1a(int *arr);
 static void day1b(int *arr);
+static void day2a(char *arr[]);
+static void day2b(char *arr[]);
 static void readFile(int *p, char *fname);
 
 int main(int argc, char **argv) {
+    day1(argv[1]);
+    day2(argv[1]);
+}
+
+static void day1(char *fname) {
     int *buffer;
     buffer = (int*)malloc(2000 * sizeof(int));
     if (argc >= 2) {
-        readFile(buffer, argv[1]);
+        readFileInt(buffer, fname);
         printf("----------DAY 1----------\n");
         day1a(buffer);
         day1b(buffer);
@@ -19,10 +31,33 @@ int main(int argc, char **argv) {
     } else {
         printf("You need to supply filename...\n");
     }
-    return 0;
 }
 
-static void readFile(int *p, char *fname) {
+static void day2(char *fname) {
+    char *buffer;
+    buffer = (char*)malloc(1000 * sizeof(char));
+    if (argc >= 2) {
+        readFileInt(buffer, fname);
+        printf("----------DAY 2----------\n");
+        day2a(buffer);
+        printf("-------------------------\n");
+    } else {
+        printf("You need to supply filename...\n");
+    }
+}
+
+static void readFileInt(int *p, char *fname) {
+    FILE * file;
+    int i = 0;
+    file = fopen(fname, "r");
+    while (!feof(file)) {
+        fscanf(file, "%d", &p[i]);
+        i++;
+    }
+    
+}
+
+static void readFileChar(int *p, char *fname) {
     FILE * file;
     int i = 0;
     file = fopen(fname, "r");
@@ -51,4 +86,9 @@ static void day1b(int *arr) {
         if (second > first) counter++;
     }
     printf("%d\n", counter);
+}
+
+static void day2a(char *arr) {
+    printf("Task A:\n\t");
+    
 }
