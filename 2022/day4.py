@@ -3,24 +3,20 @@ def ranges(r):
 
 
 def _04a(file: str):
-    """
-    ...456...
-    ....5....
-    """
     data = open(file).read().splitlines()
-
     contained = 0
     part_of = 0
     for d in data:
         one, two = d.split(",")
         one = ranges(one)
         two = ranges(two)
-        if one[0] <= two[0] and one[1] >= two[1]:
+        s1 = set(range(one[0], one[1]+1)) if one[0] != one[1] else set(one)
+        s2 = set(range(two[0], two[1]+1)) if two[0] != two[1] else set(two)
+
+        if s1.issubset(s2) or s2.issubset(s1):
             contained += 1
-        elif two[0] <= one[0] and two[1] >= one[1]:
-            contained += 1
-        
-        if one[1] >= two[0] and one[0] <= two[1]:
+
+        if s1.intersection(s2):
             part_of += 1
     
     return contained, part_of
